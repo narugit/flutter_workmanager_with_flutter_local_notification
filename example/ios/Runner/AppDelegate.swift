@@ -1,6 +1,7 @@
 import UIKit
 import Flutter
 import workmanager
+import flutter_local_notifications
 
 @UIApplicationMain
 
@@ -29,6 +30,13 @@ import workmanager
         // frequency is not guaranteed rather iOS will schedule it as per user's App usage pattern.
         // If frequency is not provided it will default to 15 minutes
         WorkmanagerPlugin.registerPeriodicTask(withIdentifier: "be.tramckrijte.narugit.workmanagerExample.iOSBackgroundAppRefresh", frequency: NSNumber(value: 20 * 60))
+
+        if #available(iOS 10.0, *) {
+           UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+        }
+        FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
+           GeneratedPluginRegistrant.register(with: registry)
+        }
 
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
 

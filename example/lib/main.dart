@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest_all.dart' as tz_data;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() => runApp(MaterialApp(home: MyApp()));
 
@@ -37,6 +40,44 @@ final List<String> allTasks = [
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
+    const initializationSettingsAndroid = AndroidInitializationSettings('@drawable/ic_notify');
+    const initializationSettingsIOS = DarwinInitializationSettings();
+    const initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    bool? ret = await flutterLocalNotificationsPlugin.initialize(
+        initializationSettings,
+    );
+    tz_data.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation("Asia/Tokyo"));
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime targetTzTime =
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, now.hour, now.minute+1);
+    if (now.isAfter(targetTzTime)) {
+      print("ERROR: failed to set notification schedule targetTime: ${targetTzTime.toString()} is past.");
+    }
+    NotificationDetails notificationDetails = const NotificationDetails(
+      android: AndroidNotificationDetails(
+        'freezer-fooditem',
+        'freezer-fooditem',
+        channelDescription: 'Food deadline notification',
+      ),
+      iOS: DarwinNotificationDetails(
+        badgeNumber: 1,
+      ),
+    );
+
+    int id = 1;
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      id,
+      "hoge",
+      "hello",
+      targetTzTime,
+      notificationDetails,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.alarmClock,
+    );
+    
     final prefs = await SharedPreferences.getInstance();
     await prefs.reload();
 
@@ -123,6 +164,17 @@ class _MyAppState extends State<MyApp> {
                 ElevatedButton(
                   child: Text("Start the Flutter background service"),
                   onPressed: () async {
+                    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+                    if (Platform.isIOS) {
+                      await flutterLocalNotificationsPlugin
+                          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+                          ?.requestPermissions(
+                            alert: true,
+                            badge: true,
+                            sound: true,
+                          );
+                    }
                     if (Platform.isIOS) {
                       final hasPermission = await Workmanager()
                           .checkBackgroundRefreshPermission();
