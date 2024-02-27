@@ -4,15 +4,15 @@
 <dict>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
-		<string>be.tramckrijte.workmanagerExample.taskId</string>
-		<string>be.tramckrijte.workmanagerExample.simpleTask</string>
-		<string>be.tramckrijte.workmanagerExample.rescheduledTask</string>
-		<string>be.tramckrijte.workmanagerExample.failedTask</string>
-		<string>be.tramckrijte.workmanagerExample.simpleDelayedTask</string>
-		<string>be.tramckrijte.workmanagerExample.simplePeriodicTask</string>
-		<string>be.tramckrijte.workmanagerExample.simplePeriodic1HourTask</string>
-		<string>be.tramckrijte.workmanagerExample.iOSBackgroundAppRefresh</string>
-		<string>be.tramckrijte.workmanagerExample.iOSBackgroundProcessingTask</string>
+		<string>be.tramckrijte.narugit.workmanagerExample.taskId</string>
+		<string>be.tramckrijte.narugit.workmanagerExample.simpleTask</string>
+		<string>be.tramckrijte.narugit.workmanagerExample.rescheduledTask</string>
+		<string>be.tramckrijte.narugit.workmanagerExample.failedTask</string>
+		<string>be.tramckrijte.narugit.workmanagerExample.simpleDelayedTask</string>
+		<string>be.tramckrijte.narugit.workmanagerExample.simplePeriodicTask</string>
+		<string>be.tramckrijte.narugit.workmanagerExample.simplePeriodic1HourTask</string>
+		<string>be.tramckrijte.narugit.workmanagerExample.iOSBackgroundAppRefresh</string>
+		<string>be.tramckrijte.narugit.workmanagerExample.iOSBackgroundProcessingTask</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>

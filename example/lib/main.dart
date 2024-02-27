@@ -9,18 +9,18 @@ import 'package:workmanager/workmanager.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
 
-const simpleTaskKey = "be.tramckrijte.workmanagerExample.simpleTask";
-const rescheduledTaskKey = "be.tramckrijte.workmanagerExample.rescheduledTask";
-const failedTaskKey = "be.tramckrijte.workmanagerExample.failedTask";
-const simpleDelayedTask = "be.tramckrijte.workmanagerExample.simpleDelayedTask";
+const simpleTaskKey = "be.tramckrijte.narugit.workmanagerExample.simpleTask";
+const rescheduledTaskKey = "be.tramckrijte.narugit.workmanagerExample.rescheduledTask";
+const failedTaskKey = "be.tramckrijte.narugit.workmanagerExample.failedTask";
+const simpleDelayedTask = "be.tramckrijte.narugit.workmanagerExample.simpleDelayedTask";
 const simplePeriodicTask =
-    "be.tramckrijte.workmanagerExample.simplePeriodicTask";
+    "be.tramckrijte.narugit.workmanagerExample.simplePeriodicTask";
 const simplePeriodic1HourTask =
-    "be.tramckrijte.workmanagerExample.simplePeriodic1HourTask";
+    "be.tramckrijte.narugit.workmanagerExample.simplePeriodic1HourTask";
 const iOSBackgroundAppRefresh =
-    "be.tramckrijte.workmanagerExample.iOSBackgroundAppRefresh";
+    "be.tramckrijte.narugit.workmanagerExample.iOSBackgroundAppRefresh";
 const iOSBackgroundProcessingTask =
-    "be.tramckrijte.workmanagerExample.iOSBackgroundProcessingTask";
+    "be.tramckrijte.narugit.workmanagerExample.iOSBackgroundProcessingTask";
 
 final List<String> allTasks = [
   simpleTaskKey,
@@ -40,7 +40,7 @@ void callbackDispatcher() {
     final prefs = await SharedPreferences.getInstance();
     await prefs.reload();
 
-    print("$task started. inputData = $inputData");
+    print("+++++ $task started. inputData = $inputData +++++");
     await prefs.setString(task, 'Last ran at: ${DateTime.now().toString()}');
 
     switch (task) {
